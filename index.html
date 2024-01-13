@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IUS ID Decoder</title>
+    <link rel="icon" type="image/x-icon" href="fav.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div style="height: 100vh" class="row">
+        <div class="col align-items-center d-flex justify-content-center">
+          <div class="card mb-3" style="max-width: 540px">
+            <div class="row g-0">
+              <div class="col-md-4 col-6">
+                <img
+                  src="main.jpg"
+                  class="img-fluid h-100 rounded-start"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-8 col-6">
+                <div class="card-body">
+                  <h5 class="card-title">ID Decoder</h5>
+                  <form id="id_form" class="form-floating mb-3">
+                    <input
+                      name="id_input"
+                      type="text"
+                      class="form-control border-primary"
+                      id="floatingInput"
+                      placeholder="221010020"
+                    />
+                    <label for="floatingInput">Ex: 221010020</label>
+                  </form>
+
+                  <p class="card-text">
+                    <small id="note" class="text-body-secondary"
+                      >University of Scholars</small
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button
+      id="modal_hidden_btn"
+      type="button"
+      class="d-none btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#staticBackdrop"
+    >
+      Launch static backdrop modal
+    </button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Decoded Information of '<span id="input_id"></span>'
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Year</th>
+                  <th scope="col">Session</th>
+                  <th scope="col">Department</th>
+                  <th scope="col">Roll</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="year">Mark</td>
+                  <td id="session">Mark</td>
+                  <td id="department">Otto</td>
+                  <td id="roll">@mdo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    document.getElementById("id_form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      f = false;
+      let id = e.target.id_input.value;
+      let current_year;
+      if (parseInt(id)) {
+        id = parseInt(id);
+        if (id.toString().length === 9) {
+          current_year = new Date().getFullYear().toString().substr(2);
+          current_year = parseInt(current_year);
+          if (current_year >= parseInt(id.toString().substr(0, 2))) {
+            f = true;
+            id = id.toString();
+            let year = id.substr(0, 2);
+            let session = id.substr(2, 2);
+            let dept = id.substr(4, 2);
+            let roll = id.substr(6);
+
+            //Decode Year
+            let d_year =
+              new Date().getFullYear().toString().substr(0, 2) + year;
+
+            //Decode Session
+            let d_session;
+            if (session === "10") {
+              d_session = "Spring";
+            } else if (session === "20") {
+              d_session = "Fall";
+            } else {
+              f = false;
+            }
+
+            //Decode Dept
+            let d_dept;
+            if (dept === "10") {
+              d_dept = "CSE";
+            } else if (dept === "40") {
+              d_dept = "English";
+            } else if (dept === "20") {
+              d_dept = "EEE";
+            } else if (dept === "30") {
+              d_dept = "Textile";
+            } else if (dept === "50") {
+              d_dept = "BBA";
+            } else {
+              f = false;
+            }
+
+            //Decode Roll
+            let d_roll = roll;
+
+            //Attached Info
+            document.getElementById("year").innerText = d_year;
+            document.getElementById("department").innerText = d_dept;
+            document.getElementById("session").innerText = d_session;
+            document.getElementById("roll").innerText = d_roll;
+            document.getElementById("input_id").innerText = id;
+          }
+        }
+      }
+
+      if (f == true) {
+        note.style.removeProperty("color");
+        note.innerText = "University of Scholars";
+        id.value = e.target.id_input.value = "";
+        document.getElementById("modal_hidden_btn").click();
+      } else {
+        const note = document.getElementById("note");
+        note.innerText = "Invalid Id!";
+        note.style.setProperty("color", "red", "important");
+      }
+    });
+  </script>
+</html>
