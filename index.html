@@ -99,7 +99,7 @@
           <div class="modal-body">
             <div class="table-responsive text-center">
               <table class="table">
-                <thead>
+                <!-- <thead>
                   <tr>
                     <th scope="col">Admission Year</th>
                     <th scope="col">Session</th>
@@ -108,13 +108,25 @@
                     <th scope="col">Roll</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody> -->
                   <tr>
-                    <td id="year">Mark</td>
-                    <td id="session">Mark</td>
-                    <td id="department">Otto</td>
+                    <td><span class="fw-bold">Admission Year:</span> <span class="fst-italic fw-lighter" id="year">Mark</span></td>
+                    </tr>
+                  <tr>
+                    <td ><span class="fw-bold">Session:</span> <span class="fst-italic fw-lighter" id="session">Mark</span></td>
+                    </tr>
+                  <tr>
+                    <td><span class="fw-bold">Department:</span> <span class="fst-italic fw-lighter" id="department">Mark</span></td>
+                    </tr>
+                  <tr>
+                    <td ><span class="fw-bold">Batch:</span> <span class="fst-italic fw-lighter" id="batch">Mark</span></td>
+                    </tr>
+                  <tr>
+                    <td ><span class="fw-bold">Roll:</span> <span class="fst-italic fw-lighter" id="roll">Mark</span></td>
+                    </tr>
+                    <!-- <td id="department">Otto</td>
                     <td id="batch">Otto</td>
-                    <td id="roll">@mdo</td>
+                    <td id="roll">@mdo</td> -->
                   </tr>
                 </tbody>
               </table>
@@ -231,5 +243,7 @@
         note.style.setProperty("color", "red", "important");
       }
     });
+
+    document.getElementById("modal_hidden_btn").click();
   </script>
 </html>
