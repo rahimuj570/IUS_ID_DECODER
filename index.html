@@ -92,9 +92,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Year</th>
+                  <th scope="col">Admission Year</th>
                   <th scope="col">Session</th>
                   <th scope="col">Department</th>
+                  <th scope="col">Batch</th>
                   <th scope="col">Roll</th>
                 </tr>
               </thead>
@@ -103,6 +104,7 @@
                   <td id="year">Mark</td>
                   <td id="session">Mark</td>
                   <td id="department">Otto</td>
+                  <td id="batch">Otto</td>
                   <td id="roll">@mdo</td>
                 </tr>
               </tbody>
@@ -134,56 +136,76 @@
       let current_year;
       if (parseInt(id)) {
         id = parseInt(id);
-        if (id.toString().length === 9) {
-          current_year = new Date().getFullYear().toString().substr(2);
-          current_year = parseInt(current_year);
-          if (current_year >= parseInt(id.toString().substr(0, 2))) {
-            f = true;
-            id = id.toString();
-            let year = id.substr(0, 2);
-            let session = id.substr(2, 2);
-            let dept = id.substr(4, 2);
-            let roll = id.substr(6);
+        if (parseInt(id / 100000) >= 1710) {
+          if (id.toString().length === 9) {
+            current_year = new Date().getFullYear().toString().substr(2);
+            current_year = parseInt(current_year);
+            if (current_year >= parseInt(id.toString().substr(0, 2)) && id) {
+              f = true;
+              id = id.toString();
+              let year = id.substr(0, 2);
+              let session = id.substr(2, 2);
+              let dept = id.substr(4, 2);
+              let roll = id.substr(6);
 
-            //Decode Year
-            let d_year =
-              new Date().getFullYear().toString().substr(0, 2) + year;
+              //Decode Year
+              let d_year =
+                new Date().getFullYear().toString().substr(0, 2) + year;
 
-            //Decode Session
-            let d_session;
-            if (session === "10") {
-              d_session = "Spring";
-            } else if (session === "20") {
-              d_session = "Fall";
-            } else {
-              f = false;
+              //Decode Session
+              let d_session;
+              if (session === "10") {
+                d_session = "Spring";
+              } else if (session === "20") {
+                d_session = "Fall";
+              } else {
+                f = false;
+              }
+
+              //Decode Dept
+              let d_dept;
+              if (dept === "10") {
+                d_dept = "CSE";
+              } else if (dept === "40") {
+                d_dept = "English";
+              } else if (dept === "20") {
+                d_dept = "EEE";
+              } else if (dept === "30") {
+                d_dept = "Textile";
+              } else if (dept === "50") {
+                d_dept = "BBA";
+              } else {
+                f = false;
+              }
+
+              //Decode Roll
+              let d_roll = roll;
+
+              //Decode Batch
+              let flag = false;
+              let batch = 1;
+              let temp = 17;
+              while (true) {
+                if (parseInt(id.substr(0, 2)) == temp) {
+                  if (id.substr(2, 1) === "2") {
+                    batch++;
+                    break;
+                  }
+                  break;
+                }
+                batch += 2;
+                temp++;
+              }
+
+              //Attached Info
+              document.getElementById("year").innerText = d_year;
+              document.getElementById("department").innerText = d_dept;
+              document.getElementById("session").innerText =
+                d_session + "-" + d_year.substr(2);
+              document.getElementById("roll").innerText = d_roll;
+              document.getElementById("input_id").innerText = id;
+              document.getElementById("batch").innerText = batch;
             }
-
-            //Decode Dept
-            let d_dept;
-            if (dept === "10") {
-              d_dept = "CSE";
-            } else if (dept === "40") {
-              d_dept = "English";
-            } else if (dept === "20") {
-              d_dept = "EEE";
-            } else if (dept === "30") {
-              d_dept = "Textile";
-            } else if (dept === "50") {
-              d_dept = "BBA";
-            } else {
-              f = false;
-            }
-
-            //Decode Roll
-            let d_roll = roll;
-
-            //Attached Info
-            document.getElementById("year").innerText = d_year;
-            document.getElementById("department").innerText = d_dept;
-            document.getElementById("session").innerText = d_session;
-            document.getElementById("roll").innerText = d_roll;
-            document.getElementById("input_id").innerText = id;
           }
         }
       }
